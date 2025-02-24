@@ -1,6 +1,9 @@
 // import React from 'react'
 import categories from "../assets/mockData";
 import heroimage from "../assets/images/hero/heroimage.png";
+import InfoSection from "../Components/InfoSection";  
+import CatagorySection from "../Components/catagorySection";
+import AllProducts from "../Components/AllProducts";
 const Home = () => {
   return (
     <div className="bg-white mt-2 px-4 md:px-16 lg:px-24">
@@ -22,20 +25,23 @@ const Home = () => {
           </ul>
         </div>
         <div className="w-full md:w-3/4 mt-8 md:mt-0 h-96 relative bg-black">
-          <div className="absolute right-8 mt-8">
+          <div className="absolute right-5 mt-10">
             <img src={heroimage} alt="" className="h-full w-full" />
           </div>
           <div className="absolute top-1/2 left-8 transform -translate-y-1/2 text-white items-center text-left">
-            <p>
+            <p className="font-bold text-2xl">
               Welcome to <b>HBK</b>
             </p>
             <p>Get the best quality products at the best prices</p>
-            <button className="mt-4 px-4 py-2 bg-red-600 text-white rounded">
+            <button className="mt-4 px-4 py-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors duration-300">
               SHOP NOW
             </button>
           </div>
         </div>
       </div>
+      <InfoSection />
+      <CatagorySection />
+      <AllProducts/>
     </div>
   );
 };

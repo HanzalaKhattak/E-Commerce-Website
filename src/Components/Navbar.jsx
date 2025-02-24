@@ -24,22 +24,22 @@ const Navbar = () => {
             <FaShoppingCart className="text-xl" />
           </Link>
           <button className="hidden md:block">Login | Register</button>
-          <button className="hidden md:hidden">
+          <button className="md:hidden">
             <FaUser />
           </button>
         </div>
       </div>
-      <div className="flex justify-center item-center space-x-10 py-4 text-sm font-bold">
+      <div className="flex justify-center items-center space-x-10 py-4 text-sm font-bold">
         <Link to="/" className="hover:underline">
           Home
         </Link>
-        <Link to="/" className="hover:underline">
+        <Link to="/Shop" className="hover:underline">
           Shop
         </Link>
-        <Link to="/" className="hover:underline">
+        <Link to="/Contact" className="hover:underline">
           Contact
         </Link>
-        <Link to="/" className="hover:underline">
+        <Link to="/About" className="hover:underline">
           About
         </Link>
       </div>

@@ -1,8 +1,28 @@
-// import React from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSearch, FaShoppingCart, FaUser } from "react-icons/fa";
+import { auth } from "../firebase"; // Import Firebase auth
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const Navbar = () => {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  // Check if a user is logged in
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe(); // Cleanup listener when component unmounts
+  }, []);
+
+  // Logout function
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/login"); // Redirect to login page after logout
+  };
+
   return (
     <nav className="bg-white shadow-md">
       <div className="container mx-auto px-4 md:px-16 lg:px-24 py-4 flex justify-between items-center">
@@ -23,7 +43,19 @@ const Navbar = () => {
           <Link to={"/cart"}>
             <FaShoppingCart className="text-xl" />
           </Link>
-          <button className="hidden md:block">Login | Register</button>
+
+          {/* Show Login/Register if no user is logged in */}
+          {!user ? (
+            <Link to="/login" className="hidden md:block">
+              Login | Register
+            </Link>
+          ) : (
+            // Show Logout if user is logged in
+            <button onClick={handleLogout} className="hidden md:block text-red-500">
+              Logout
+            </button>
+          )}
+
           <button className="md:hidden">
             <FaUser />
           </button>

@@ -24,7 +24,9 @@ const CatagorySection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {catagories.map((catagory, index) => (
                 <div key={index} className="relative group">
-                    <img src={catagory.imageURL} alt={catagory.title} className="w-full h-64 bg-cover object-top rounded-lg shadow-md "  />
+                    <div className="w-full h-80 rounded-lg overflow-hidden relative">
+                    <img src={catagory.imageURL} alt={catagory.title} className="w-full h-full object-cover object-top rounded-lg shadow-md "  />
+                    </div>
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <h3 className="text-white text-2xl font-bold mb-4">{catagory.title}</h3>
                         <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors duration-300">

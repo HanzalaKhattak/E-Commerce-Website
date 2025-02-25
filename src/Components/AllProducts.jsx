@@ -1,33 +1,38 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaStar, FaShoppingCart } from "react-icons/fa";
+import { SyncLoader } from "react-spinners";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const productAPI = "https://fakestoreapi.com/products";
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setProducts(data);
-        } else {
-          console.log("Invalid Data Format: ", data);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error while Fetching Products: ", error);
-        setError(error);
-        setLoading(false);
-      });
+    fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get(productAPI);
+      if (res.status === 200) {
+        setProducts(res.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error while Fetching Products: ", error);
+      setError(error);
+      setLoading(false);
+      toast.error('Something went wrong');
+    }
+  };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="text-center text-3xl font-bold">Loading...</div>
+        <SyncLoader color="#000C66" size={20} className="" />
       </div>
     );
   }

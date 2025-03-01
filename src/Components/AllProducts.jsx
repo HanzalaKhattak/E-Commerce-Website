@@ -68,10 +68,7 @@ const AllProducts = ({ id }) => {
                   {product.title}
                 </h3>
                 <p className="text-sm text-gray-600 mb-1">${product.price}</p>
-                <div className="flex items-center mb-2">
-                <Stack spacing={1}>
-                    <Rating name='half-rating' defaultValue={2.5} precision={0.5} />
-                  </Stack>
+                {/* <div className="flex items-center mb-2"> */}
                   {/* {Array.from({ length: 5 }, (_, index) => (
                     <FaStar
                       key={index}
@@ -82,14 +79,15 @@ const AllProducts = ({ id }) => {
                       }`}
                     />
                   ))} */}
-
-
                   {/* <span className="ml-1 text-xs text-gray-500">
                     ({product.rating.rate})
                   </span> */}
-                </div>
+                {/* </div> */}
               </div>
               <div className="p-3">
+                 <Stack spacing={1} className="mb-2">
+                    <Rating name='half-rating' defaultValue={2.5} precision={0.5} />
+                  </Stack>
                 <button
                   onClick={() => addToCart(product)}
                   className="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-1 rounded-md flex items-center justify-center transition-colors duration-300"

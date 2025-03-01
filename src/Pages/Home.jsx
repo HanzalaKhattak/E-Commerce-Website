@@ -4,7 +4,12 @@ import heroimage from "../assets/images/hero/heroimage.png";
 import InfoSection from "../Components/InfoSection";  
 import CatagorySection from "../Components/catagorySection";
 import AllProducts from "../Components/AllProducts";
+
 const Home = () => {
+  const scrollToProducts = () => {
+    document.getElementById("all-products-section").scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="bg-white mt-2 px-4 md:px-16 lg:px-24">
       <div className="container mx-auto py-4 flex flex-col md:flex-row space-x-2">
@@ -33,7 +38,10 @@ const Home = () => {
               Welcome to <b>HBK</b>
             </p>
             <p>Get the best quality products at the best prices</p>
-            <button className="mt-4 px-4 py-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors duration-300">
+            <button
+              onClick={scrollToProducts}
+              className="mt-4 py-2 bg-red-600 text-white px-4 rounded hover:bg-red-700 transition-colors duration-300"
+            >
               SHOP NOW
             </button>
           </div>
@@ -41,7 +49,7 @@ const Home = () => {
       </div>
       <InfoSection />
       <CatagorySection />
-      <AllProducts/>
+      <AllProducts id="all-products-section" />
     </div>
   );
 };

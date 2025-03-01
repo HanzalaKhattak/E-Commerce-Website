@@ -36,7 +36,7 @@ const InfoSection = () => {
             {infoItems.map((item, index) => (
               <div
                 key={index}
-                className="group flex flex-col items-center text-center p-6 border rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:bg-red-700 text-white cursor-pointer"
+                className="group flex flex-col items-center text-center p-6 border rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover: cursor-pointer"
               >
                 {/* Icon with hover color change */}
                 <div className="text-4xl mb-4 group-hover:text-yellow-500 transition-colors duration-300 hover:text-white">

@@ -13,7 +13,7 @@ const Signup = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate("/dashboard"); // Redirect if logged in
+        navigate("/"); // Redirect if logged in
       }
     });
     return () => unsubscribe();
@@ -24,7 +24,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard");
+      navigate("/"); // Redirect to home after signup
     } catch (err) {
       setError(err.message);
     }
@@ -34,7 +34,7 @@ const Signup = () => {
   const handleGoogleSignup = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      navigate("/dashboard");
+      navigate("/"); // Redirect to home after Google signup
     } catch (err) {
       setError(err.message);
     }

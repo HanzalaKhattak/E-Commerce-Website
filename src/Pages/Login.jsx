@@ -13,7 +13,7 @@ const Login = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate("/dashboard"); // Redirect if logged in
+        navigate("/"); // Redirect if logged in
       }
     });
     return () => unsubscribe();
@@ -24,7 +24,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard");
+      navigate("/"); // Redirect to home after login
     } catch (err) {
       setError(err.message);
     }
@@ -34,7 +34,7 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      navigate("/dashboard");
+      navigate("/"); // Redirect to home after Google login
     } catch (err) {
       setError(err.message);
     }
@@ -67,19 +67,18 @@ const Login = () => {
           </button>
         </form>
 
-        <button 
-          onClick={handleGoogleLogin} 
-          className="mt-4 w-full bg-red-500 text-white p-2 rounded"
-        >
-          Login with Google
-        </button>
-
         <p className="mt-4 text-center">
           Dont have an account?{" "}
           <Link to="/signup" className="text-blue-500 hover:underline">
             Sign up here
           </Link>
         </p>
+        <button 
+          onClick={handleGoogleLogin} 
+          className="mt-4 w-full bg-red-500 text-white p-2 rounded"
+        >
+          Login with Google
+        </button>
       </div>
     </div>
   );

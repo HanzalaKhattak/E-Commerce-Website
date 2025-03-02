@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { FaStar } from "react-icons/fa";
+// import { FaStar } from "react-icons/fa";
+import { Rating, Stack } from "@mui/material";
+
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -28,7 +30,7 @@ const Cart = () => {
               <div className="p-3">
                 <h3 className="text-base font-semibold text-gray-800 mb-1">{item.title}</h3>
                 <p className="text-sm text-gray-600 mb-1">${item.price}</p>
-                <div className="flex items-center mb-2">
+                {/* <div className="flex items-center mb-2">
                   {Array.from({ length: 5 }, (_, index) => (
                     <FaStar
                       key={index}
@@ -36,7 +38,10 @@ const Cart = () => {
                     />
                   ))}
                   <span className="ml-1 text-xs text-gray-500">({item.rating.rate})</span>
-                </div>
+                </div> */}
+                <Stack spacing={1} className="mb-2">
+                    <Rating name='half-rating' defaultValue={2.5} precision={0.5} />
+                  </Stack>
                 <button
                   onClick={() => removeFromCart(index)}
                   className="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-1 rounded-md flex items-center justify-center transition-colors duration-300"

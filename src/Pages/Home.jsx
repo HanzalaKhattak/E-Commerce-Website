@@ -49,7 +49,7 @@ const Home = () => {
       </div>
       <InfoSection />
       <CatagorySection />
-      <AllProducts id="all-products-section" />
+z      <AllProducts id="all-products-section" />
     </div>
   );
 };

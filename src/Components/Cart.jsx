@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Rating, Stack } from "@mui/material";
-import { removeFromCart, updateQuantity, clearCart, loadCartFromStorage } from "../redux/cartSlice";
+import { removeFromCart, updateQuantity, clearCart } from "../redux/cartSlice";
 import { FaTrash, FaShoppingBag } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -10,17 +9,6 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { items: cartItems, totalQuantity, totalPrice } = useSelector(state => state.cart);
-
-  useEffect(() => {
-    // Load cart from localStorage on component mount
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || { items: [], totalQuantity: 0, totalPrice: 0 };
-    dispatch(loadCartFromStorage(savedCart));
-  }, [dispatch]);
-
-  useEffect(() => {
-    // Save cart to localStorage whenever cart changes
-    localStorage.setItem("cart", JSON.stringify({ items: cartItems, totalQuantity, totalPrice }));
-  }, [cartItems, totalQuantity, totalPrice]);
 
   const handleRemoveFromCart = (product) => {
     dispatch(removeFromCart(product));

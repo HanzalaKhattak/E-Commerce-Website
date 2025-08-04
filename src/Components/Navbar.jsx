@@ -1,13 +1,19 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { setSearchTerm } from "../redux/productSlice";
 import { auth } from "../firebase"; // Import Firebase auth
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const totalQuantity = useSelector(state => state.cart.totalQuantity);
 
   // Check if a user is logged in
   useEffect(() => {
@@ -32,6 +38,20 @@ const Navbar = () => {
     setIsSidebarOpen(false);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      dispatch(setSearchTerm(searchInput));
+      if (window.location.pathname !== '/shop') {
+        navigate('/shop');
+      }
+    }
+  };
+
   return (
     <nav className="bg-white shadow-md">
       <div className="container mx-auto px-4 md:px-16 lg:px-24 py-4 flex justify-between items-center">
@@ -44,18 +64,27 @@ const Navbar = () => {
           </div>
         </div>
         <div className="relative flex-1 mx-4">
-          <form>
+          <form onSubmit={handleSearchSubmit}>
             <input
               type="text"
               placeholder="Search Product"
-              className="w-full border py-2 px-4"
+              value={searchInput}
+              onChange={handleSearchChange}
+              className="w-full border py-2 px-4 rounded"
             />
-            <FaSearch className="absolute top-3 right-3 text-red-500"></FaSearch>
+            <button type="submit" className="absolute top-3 right-3">
+              <FaSearch className="text-red-500" />
+            </button>
           </form>
         </div>
         <div className="flex items-center space-x-4">
-          <Link to={"/cart"}>
+          <Link to={"/cart"} className="relative">
             <FaShoppingCart className="text-xl" />
+            {totalQuantity > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                {totalQuantity}
+              </span>
+            )}
           </Link>
 
           {/* Show Login/Register if no user is logged in */}

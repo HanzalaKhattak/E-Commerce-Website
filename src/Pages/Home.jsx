@@ -2,7 +2,7 @@
 import categories from "../assets/mockData";
 import heroimage from "../assets/images/hero/heroimage.png";
 import InfoSection from "../Components/InfoSection";  
-import CatagorySection from "../Components/catagorySection";
+import CategorySection from "../Components/CategorySection";
 import AllProducts from "../Components/AllProducts";
 
 const Home = () => {
@@ -48,7 +48,7 @@ const Home = () => {
         </div>
       </div>
       <InfoSection />
-      <CatagorySection />
+      <CategorySection />
       <AllProducts id="all-products-section" />
     </div>
   );

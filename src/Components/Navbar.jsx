@@ -113,6 +113,7 @@ const Navbar = () => {
               <li className="mb-2"><Link to="/about" className="text-lg" onClick={closeSidebar}>About</Link></li>
               <li className="mb-2"><Link to="/privacy-policy" className="text-lg" onClick={closeSidebar}>Privacy Policy</Link></li>
               <li className="mb-2"><Link to="/terms-of-service" className="text-lg" onClick={closeSidebar}>Terms of Service</Link></li>
+              <li className="mb-2"><Link to="/cookie-policy" className="text-lg" onClick={closeSidebar}>Cookie Policy</Link></li>
               {!user ? (
                 <li className="mb-2"><Link to="/login" className="text-lg" onClick={closeSidebar}>Login | Register</Link></li>
               ) : (
@@ -140,6 +141,9 @@ const Navbar = () => {
         </Link>
         <Link to="/terms-of-service" className="hover:underline">
           Terms of Service
+        </Link>
+        <Link to="/cookie-policy" className="hover:underline">
+          Cookie Policy
         </Link>
       </div>
     </nav>

@@ -11,6 +11,7 @@ import Checkout from "./Pages/Checkout";
 import OrderSuccess from "./Pages/OrderSuccess";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsOfService from "./Pages/TermsOfService";
+import CookiePolicy from "./Pages/CookiePolicy";
 import PrivateRoute from "./Components/PrivateRoute"; // Import PrivateRoute
 import { Toaster } from "react-hot-toast";
 import Cart from "./Components/Cart"; // Import Cart
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
           <Route
             path="/shop"
             element={

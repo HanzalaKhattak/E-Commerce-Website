@@ -9,6 +9,7 @@ const Footer = () => {
       { name: 'About Us', path: '/about' },
       { name: 'Contact', path: '/contact' },
       { name: 'Privacy Policy', path: '/privacy-policy' },
+      { name: 'Terms of Service', path: '/terms-of-service' },
       { name: 'Careers', path: '#' },
       { name: 'Press', path: '#' }
     ],
@@ -179,9 +180,9 @@ const Footer = () => {
                   <Link to="/privacy-policy" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
                     Privacy Policy
                   </Link>
-                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+                  <Link to="/terms-of-service" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
                     Terms of Service
-                  </a>
+                  </Link>
                   <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
                     Cookie Policy
                   </a>

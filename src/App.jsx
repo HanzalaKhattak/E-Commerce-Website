@@ -9,6 +9,7 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/SignUp";
 import Checkout from "./Pages/Checkout";
 import OrderSuccess from "./Pages/OrderSuccess";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import PrivateRoute from "./Components/PrivateRoute"; // Import PrivateRoute
 import { Toaster } from "react-hot-toast";
 import Cart from "./Components/Cart"; // Import Cart
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route
             path="/shop"
             element={

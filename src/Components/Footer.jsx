@@ -8,6 +8,7 @@ const Footer = () => {
     company: [
       { name: 'About Us', path: '/about' },
       { name: 'Contact', path: '/contact' },
+      { name: 'Privacy Policy', path: '/privacy-policy' },
       { name: 'Careers', path: '#' },
       { name: 'Press', path: '#' }
     ],
@@ -175,9 +176,9 @@ const Footer = () => {
               </div>
               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
                 <div className="flex space-x-6">
-                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+                  <Link to="/privacy-policy" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
                     Privacy Policy
-                  </a>
+                  </Link>
                   <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
                     Terms of Service
                   </a>

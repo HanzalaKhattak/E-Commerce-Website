@@ -4,9 +4,12 @@ import { FaCreditCard, FaLock, FaCheck } from 'react-icons/fa';
 import { clearCart } from '../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import stripePromise from '../config/stripe';
 import StripePaymentForm from '../Components/StripePaymentForm';
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -39,14 +42,27 @@ const Checkout = () => {
     }));
   };
 
-  const handlePaymentSuccess = (paymentData) => {
-    // Clear cart and show success message
+  const handlePaymentSuccess = async (paymentData) => {
+    // Persist order to backend (non-blocking — failure shouldn't stop the success flow)
+    try {
+      await axios.post(`${BACKEND_URL}/api/save-order`, {
+        paymentIntentId: paymentData.paymentIntentId,
+        paymentMethodId: paymentData.paymentMethodId,
+        amount: paymentData.amount,
+        currency: 'usd',
+        customerInfo: formData,
+        items: cartItems,
+        orderNotes: formData.orderNotes,
+      });
+    } catch (err) {
+      console.error('Failed to save order:', err);
+    }
+
     dispatch(clearCart());
     toast.success('Payment successful! Order placed.');
-    
-    // Redirect to success page with payment data
-    navigate('/order-success', { 
-      state: { 
+
+    navigate('/order-success', {
+      state: {
         orderData: {
           ...formData,
           items: cartItems,

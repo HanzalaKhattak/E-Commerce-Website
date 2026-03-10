@@ -3,6 +3,9 @@ import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { FaLock, FaCreditCard } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
+import axios from 'axios';
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 const StripePaymentForm = ({ amount, onSuccess, onError, customerInfo }) => {
   const stripe = useStripe();
@@ -45,83 +48,55 @@ const StripePaymentForm = ({ amount, onSuccess, onError, customerInfo }) => {
     setProcessing(true);
 
     try {
-      // Create payment method
-      const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: cardElement,
-        billing_details: {
-          name: `${customerInfo.firstName} ${customerInfo.lastName}`,
-          email: customerInfo.email,
-          phone: customerInfo.phone,
-          address: {
-            line1: customerInfo.address,
-            city: customerInfo.city,
-            state: customerInfo.state,
-            postal_code: customerInfo.zipCode,
-            country: customerInfo.country,
+      // Step 1: Create a PaymentIntent on the backend
+      const { data } = await axios.post(`${BACKEND_URL}/api/create-payment-intent`, {
+        amount,
+        currency: 'usd',
+        customerInfo,
+      });
+
+      // Step 2: Confirm the card payment with the client secret from the backend
+      const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: `${customerInfo.firstName} ${customerInfo.lastName}`,
+            email: customerInfo.email,
+            phone: customerInfo.phone,
+            address: {
+              line1: customerInfo.address,
+              city: customerInfo.city,
+              state: customerInfo.state,
+              postal_code: customerInfo.zipCode,
+              country: customerInfo.country,
+            },
           },
         },
       });
 
-      if (paymentMethodError) {
-        throw new Error(paymentMethodError.message);
+      if (confirmError) {
+        throw new Error(confirmError.message);
       }
 
-      // In a real application, you would send the paymentMethod.id to your backend
-      // to create a PaymentIntent and confirm the payment
-      // For demo purposes, we'll simulate a successful payment
-      
-      // Simulate API call to your backend
-      const response = await simulatePaymentIntent();
-
-      if (response.success) {
-        // If payment requires additional authentication (like 3D Secure)
-        if (response.requires_action) {
-          const { error: confirmError } = await stripe.confirmCardPayment(response.client_secret);
-          
-          if (confirmError) {
-            throw new Error(confirmError.message);
-          }
-        }
-
+      if (paymentIntent.status === 'succeeded') {
         toast.success('Payment successful!');
         onSuccess({
-          paymentMethodId: paymentMethod.id,
-          paymentIntentId: response.payment_intent_id,
-          amount: amount,
+          paymentMethodId: paymentIntent.payment_method,
+          paymentIntentId: paymentIntent.id,
+          amount,
         });
       } else {
-        throw new Error(response.error || 'Payment failed');
+        throw new Error(`Unexpected payment status: ${paymentIntent.status}`);
       }
 
     } catch (error) {
       console.error('Payment error:', error);
-      toast.error(error.message || 'Payment failed. Please try again.');
+      const message = error.response?.data?.error || error.message || 'Payment failed. Please try again.';
+      toast.error(message);
       onError(error);
     } finally {
       setProcessing(false);
     }
-  };
-
-  // Simulate backend payment intent creation
-  const simulatePaymentIntent = async () => {
-    // In production, this would be an API call to your backend
-    // Example: POST /api/create-payment-intent with paymentData
-    
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // Simulate different payment scenarios
-        const scenarios = [
-          { success: true, payment_intent_id: 'pi_' + Math.random().toString(36).substr(2, 9) },
-          { success: true, requires_action: true, client_secret: 'pi_test_client_secret' },
-          { success: false, error: 'Your card was declined.' },
-        ];
-        
-        // 90% success rate for demo
-        const outcome = Math.random() < 0.9 ? scenarios[0] : scenarios[2];
-        resolve(outcome);
-      }, 2000);
-    });
   };
 
   return (

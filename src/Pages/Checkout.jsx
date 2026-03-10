@@ -79,8 +79,8 @@ const Checkout = () => {
     toast.error('Payment failed. Please try again.');
   };
 
-  const handleLegacySubmit = async (e) => {
-    e.preventDefault();
+  const handleLegacySubmit = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
     
     // Validate required fields
     const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'state', 'zipCode', 'country'];
@@ -129,7 +129,7 @@ const Checkout = () => {
       <div className="container mx-auto px-4 max-w-6xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
         
-        <form onSubmit={handleLegacySubmit}>
+        <div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Shipping & Payment Form */}
             <div className="lg:col-span-2 space-y-8">
@@ -362,7 +362,8 @@ const Checkout = () => {
                 {/* Order Validation Button (Hidden - Payment handled by Stripe component) */}
                 {paymentMethod !== 'stripe' && (
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleLegacySubmit}
                     className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center mt-6"
                   >
                     <FaCheck className="mr-2" />
@@ -384,7 +385,7 @@ const Checkout = () => {
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
